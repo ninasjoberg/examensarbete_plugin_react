@@ -1,7 +1,6 @@
 /*global chrome*/
 import React, { Component } from 'react';
-import Ingredient from './Components/Ingredient';
-import apple from './apple.jpg';
+import TextArea from './Components/TextArea';
 import './App.css';
 
 
@@ -10,15 +9,17 @@ class App extends Component {
 	state = {
 		message: '',
 		ingredients: [],
+		counter: 1,
 	}
 
-	componentWillMount(){
+	componentDidMount(){
 		chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 			chrome.tabs.sendMessage(
-			  tabs[0].id,
-			  { greeting: 'hello' },
+			  	tabs[0].id,
+			  	{ type: 'reactInit' },
 				(response) => { //arrowfunction isf en vanlig funktion gör att this är komponenten o inte window
-				this.setState({ingredients: response})			  }
+					this.setState({ingredients: response})
+				}
 			);
 		});
 	}
@@ -26,23 +27,21 @@ class App extends Component {
 
 	render() {
 
-		let ingredientsList;
+		const ingString = this.state.ingredients.map((item) => {
+			return `${item.amount ? item.amount : ''} ${item.type ? item.type : ''} ${item.name ? item.name : ''}`;
+		});
 
-		if (this.state.ingredients) {
-			ingredientsList = this.state.ingredients.map((item) => {
-				return <Ingredient amount={item.amount} type={item.type} name={item.name}/>
-			})
-		}
 
 		return (
 			<div className="App">
 				<header className="App-header">
-					<img src={apple} className="App-logo" alt="logo" />
 					<h1 className="App-title">Näringingsberäknaren:</h1>
 				</header>
 				<div className="ingredients-container">
 					<h3>Ingredienser</h3>
-					{this.state.ingredients && <ul>{ingredientsList}</ul>}
+					<div>
+						{this.state.ingredients.length && <TextArea ingredients={ingString ? ingString.join('\n') : 'loading..'}/>}
+					</div>
 				</div>
 			</div>
 		);

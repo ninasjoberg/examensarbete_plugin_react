@@ -1,45 +1,47 @@
 /*global chrome*/
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
-    let array = [];
-    let url = window.location.href;
+    if(request.type === 'reactInit') {
+        let array = [];
+        let url = window.location.href;
 
-    if(url.includes("ica")){
-        let nodesArray = Array.from(document.querySelectorAll(".ingredients__list__item"));
-        let option1 = nodesArray[0].querySelector('.ingredient');
-        let option2 = nodesArray[0].querySelector('span');
-        if(option1) {
-            array = nodesArray.map((node) => {
-                return useRegex(node.querySelector('.ingredient').innerText);
-            });
+        if(url.includes("ica")){
+            let nodesArray = Array.from(document.querySelectorAll(".ingredients__list__item"));
+            let option1 = nodesArray[0].querySelector('.ingredient');
+            let option2 = nodesArray[0].querySelector('span');
+            if(option1) {
+                array = nodesArray.map((node) => {
+                    return useRegex(node.querySelector('.ingredient').innerText);
+                });
+            }
+            else if (option2) {
+                array = nodesArray.map((node) => {
+                    return useRegex(node.innerText);
+                });
+            }
         }
-        else if (option2) {
+        else if(url.includes("koket")){
+            let nodesArray = Array.from(document.querySelectorAll(".ingredient"));
             array = nodesArray.map((node) => {
                 return useRegex(node.innerText);
             });
         }
-    }
-    else if(url.includes("koket")){
-        let nodesArray = Array.from(document.querySelectorAll(".ingredient"));
-        array = nodesArray.map((node) => {
-            return useRegex(node.innerText);
-        });
-    }
-    else if(url.includes("coop")){
-        let nodesArray = Array.from(document.querySelectorAll(".Recipe-ingredient"));
-        array = nodesArray.map((node) => {
-            return useRegex(node.innerText);
-        });
-    }
-    console.log(array);
+        else if(url.includes("coop")){
+            let nodesArray = Array.from(document.querySelectorAll(".Recipe-ingredient"));
+            array = nodesArray.map((node) => {
+                return useRegex(node.innerText);
+            });
+        }
+        console.log(array);
 
-    // And respond back to the sender.
-    sendResponse(array);
+        //respond back to the sender.
+        sendResponse(array);
+    }
 });
 
 
 
+//kan vi flytta denna till anna fil? hur isf prata med denna fil?
 function useRegex(inputString) {
 
     inputString.trim();
@@ -52,7 +54,7 @@ function useRegex(inputString) {
     if(inputString.match(re1)){
         //dela upp i siffra, mått, ingrediens
         ingredient = inputString.split(/(kilo|kg|gram|g|milligram|mg|liter|l|deciliter|dl|centiliter|cl|milliliter|ml|matsked|msk|tesked|tsk|kryddmått|krm|blad|krukor|kruka|koppar|kopp|nypor|nypa|stycken|st|förpackning|förpackningar|förp|klyftor|klyfta)\s/);
-        ingredientObject.amount = ingredient[0].match(/[^a-z+å+ä+ö ]+/)[0];
+        ingredientObject.amount = ingredient[0].match(/[^a-z+å+ä+ö ]+/)[0]; //för att få bort 'ca' osv framför ett antal
         ingredientObject.type = ingredient[1];
         ingredientObject.name = ingredient[2];
 
