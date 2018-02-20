@@ -15,7 +15,7 @@
     "storage"
   ],
   "content_scripts": [{
-    "matches": ["https://www.ica.se/*"],
+    "matches": ["https://www.ica.se/*", "https://www.coop.se/*", "https://www.koket.se/*"],
     "js": ["content.js"]
   }]
 }

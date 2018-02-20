@@ -30,7 +30,7 @@ class App extends Component {
 
 		if (this.state.ingredients) {
 			ingredientsList = this.state.ingredients.map((item) => {
-				return <Ingredient amount={item.amount[0]} type={item.type} name={item.name}/>
+				return <Ingredient amount={item.amount} type={item.type} name={item.name}/>
 			})
 		}
 

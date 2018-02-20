@@ -52,7 +52,7 @@ function useRegex(inputString) {
     if(inputString.match(re1)){
         //dela upp i siffra, mått, ingrediens
         ingredient = inputString.split(/(kilo|kg|gram|g|milligram|mg|liter|l|deciliter|dl|centiliter|cl|milliliter|ml|matsked|msk|tesked|tsk|kryddmått|krm|blad|krukor|kruka|koppar|kopp|nypor|nypa|stycken|st|förpackning|förpackningar|förp|klyftor|klyfta)\s/);
-        ingredientObject.amount = ingredient[0].match(/[^a-z+å+ä+ö ]+/);
+        ingredientObject.amount = ingredient[0].match(/[^a-z+å+ä+ö ]+/)[0];
         ingredientObject.type = ingredient[1];
         ingredientObject.name = ingredient[2];
 
