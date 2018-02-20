@@ -16,6 +16,11 @@
   font-size: large;
 }
 
+.ingredients-container {
+  width: 350px;
+  background-color: lightgray;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

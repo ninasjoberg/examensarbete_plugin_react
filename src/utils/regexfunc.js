@@ -29,4 +29,3 @@ export default function useRegex(inputString) {
 
     return ingredientObject;
 }
-

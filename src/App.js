@@ -1,5 +1,6 @@
 /*global chrome*/
 import React, { Component } from 'react';
+import Ingredient from './Components/Ingredient';
 import apple from './apple.jpg';
 import './App.css';
 
@@ -29,9 +30,8 @@ class App extends Component {
 
 		if (this.state.ingredients) {
 			ingredientsList = this.state.ingredients.map((item) => {
-				return <li>{item.amount[0]}{item.type}{item.name}</li>
+				return <Ingredient amount={item.amount[0]} type={item.type} name={item.name}/>
 			})
-
 		}
 
 		return (
@@ -40,8 +40,10 @@ class App extends Component {
 					<img src={apple} className="App-logo" alt="logo" />
 					<h1 className="App-title">Näringingsberäknaren:</h1>
 				</header>
-				<h3>Ingredienser</h3>
-				{this.state.ingredients && <ul>{ingredientsList}</ul>}
+				<div className="ingredients-container">
+					<h3>Ingredienser</h3>
+					{this.state.ingredients && <ul>{ingredientsList}</ul>}
+				</div>
 			</div>
 		);
 	}
