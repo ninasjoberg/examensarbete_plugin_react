@@ -71,3 +71,51 @@ function useRegex(inputString) {
 
     return ingredientObject;
 }
+
+
+
+// Lägg till knapp på receptsidan
+function appendButton(){
+
+    let url = window.location.href;
+    let node;
+    const btn = document.createElement('BUTTON');
+    const t = document.createTextNode("Näringsberäkna receptet");
+    btn.appendChild(t); 
+
+    const buttonStyle = `
+        font-size: 16px;
+        padding: 5px 10px;
+        line-height: unset;
+        height: unset;
+        border: none;
+        border-radius: 5px;
+        margin: 10px 0;
+        text-align: right;
+        color: white;
+        background-color: #336B87;`
+
+    btn.setAttribute("style", buttonStyle);
+
+    if(url.includes("ica")){
+        node = document.getElementById('ingredients-section');
+        node.insertBefore(btn, node.childNodes[0]); 
+    }
+    else if(url.includes("koket")){
+        node = document.getElementById('ingredients-component');
+        node.insertBefore(btn, node.childNodes[0]); 
+    }
+    else if(url.includes("coop")){
+        node = document.querySelector('.Recipe-portions');
+        console.log(node);
+        node.appendChild(btn); 
+    }
+
+    // Öppna popup när knapp klickas på 
+    btn.onclick = function(e) {
+        e.preventDefault();
+        console.log("Clicked");
+    };
+}
+
+appendButton();
