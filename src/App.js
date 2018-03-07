@@ -9,7 +9,7 @@ class App extends Component {
 	state = {
 		message: '',
 		ingredients: [],
-		counter: 1,
+		counter: 1
 	}
 
 	componentDidMount(){
@@ -22,10 +22,16 @@ class App extends Component {
 				}
 			);
 		});
+		chrome.storage.sync.get(null, (result) => {
+			const ageYear = result.ageYear;
+			this.setState({options: ageYear})
+		});
 	}
 
 
 	render() {
+
+		console.log(this.state.options);
 
 		const ingString = this.state.ingredients.map((item) => {
 			return `${item.amount ? item.amount : ''} ${item.type ? item.type : ''} ${item.name ? item.name : ''}`;
@@ -39,6 +45,7 @@ class App extends Component {
 				</header>
 				<div className="ingredients-container">
 					<h3>Ingredienser</h3>
+					<h2>{this.state.options}</h2>
 					<div>
 						{this.state.ingredients.length && <TextArea ingredients={ingString ? ingString.join('\n') : 'loading..'}/>}
 					</div>
